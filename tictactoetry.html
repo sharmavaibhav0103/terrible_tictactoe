@@ -1,0 +1,238 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        
+        }
+        body{
+            background-color:darkolivegreen;
+            height: 100vh;
+            width: 100vw;
+        }
+        .container{
+            transform: translate(100%,30%);
+            background-color: black;
+            width: 300px;
+            height: 300px;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            grid-gap: 5px;
+            border-radius: 20px;
+        }
+        input{
+            font-size: 80px;
+            border-radius: 5px;
+            outline: none;
+        }
+        .layOver{
+            position: absolute;
+            z-index: 1;
+            background-color: grey;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0.9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .layOver > form{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 30%;
+            height: 35%
+        }
+        .submit{
+            margin-top: 30px;
+            padding: 5px 10px;
+        }
+        .layOver-2{
+            position: absolute;
+            z-index: 2;
+            background-color: grey;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+            color:white;
+            visibility: hidden;
+        }
+        p{
+            color: white;
+            font-size: 40px;
+            position: absolute;
+            margin-top: 20px;
+            margin-left: 340px;
+            text-transform: capitalize;
+        }
+        .layOver-2 > button{
+            display: block;
+            padding: 10px 50px;
+            border-radius: 10px;
+            font-weight: bold;
+            outline: none;
+            position: absolute;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <p></p>
+    <div class="layOver-2">
+    </div>
+    <div class="layOver">
+        <form action="">
+            <div>
+                <label for="player1"><h1>Player 1:</h1></label>
+                <input type="text" name="player1" value="" />
+            </div>
+            <div>
+                <label for="player2"><h1>Player 2:</h1></label>
+                <input type="text" name="player2" value="" />
+            </div>
+            <div>
+                <input type="button" value="Submit" class="submit"/>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        
+        <input type="button" id=1 value="" onclick=playGame(this) />
+        <input type="button" id=2 value="" onclick=playGame(this) />
+        <input type="button" id=4 value="" onclick=playGame(this) />
+
+        <input type="button" id=8 value="" onclick=playGame(this) />
+        <input type="button" id=16 value="" onclick=playGame(this) />
+        <input type="button" id=32 value="" onclick=playGame(this) />
+
+        <input type="button" id=64 value="" onclick=playGame(this) />
+        <input type="button" id=128 value="" onclick=playGame(this) />
+        <input type="button" id=256 value="" onclick=playGame(this) />
+
+    </div>
+    <nput type="submit" value="x"/>
+    <script>
+    
+        const form = document.querySelector("form");
+        var players = [];
+        var p = document.querySelector("p");
+        var layOver2 = document.querySelector(".layOver-2");
+        var submit = document.querySelector(".submit");
+        var count = 2;
+        var scores = {
+                   "player1" : 0,
+                    "player2": 0
+               };
+        var winner = [ 7,56,448,73,146,292,273,84 ];
+        
+        submit.addEventListener("click",() => {
+               submit.parentElement.parentElement.parentElement.style.visibility = "hidden";
+               players.push(form[0].value);
+               players.push(form[1].value);
+               console.log(players);
+              });
+
+       var p = document.querySelector("p");
+
+        function playGame(event){
+                if(event.value === ""){
+
+                    if(count%2 === 0) {
+                        p.innerHTML = players[1] + "'s turn";
+                        event.value = "X";
+                        scores["player1"] = parseInt(scores["player1"]) + parseInt(event.id);
+                        for(var x in winner){
+                            if((winner[x] & scores["player1"]) === winner[x] )
+                                {
+                                    submit.parentElement.parentElement.parentElement.style.visibility = "visible";
+                                    submit.parentElement.parentElement.parentElement.removeChild(form);
+                                    layOver2.innerHTML = players[0] + " Wins!<br><br><button> Play Again!</button>";
+                                    // layOver2.children[0].addEventListener("click",() => {
+                                    //     console.log("Hello");
+                                    //     location.reload(true);
+                                    // });
+                                    let button = document.querySelector("button");
+                                    button.addEventListener("click",yoshi);
+                                    layOver2.style.visibility = "visible";
+                                    console.log(layOver2);
+                                    p.style.zIndex = "-1";
+                                }
+                        } 
+                    }
+                    else {
+                        p.innerHTML = players[0] + "'s Turn";
+                        event.value = "O";
+                        scores["player2"] = parseInt(scores["player2"]) + parseInt(event.id);
+                        for(var x in winner){
+                            if((winner[x] & scores["player2"]) === winner[x] )
+                                {
+                                    submit.parentElement.parentElement.parentElement.style.visibility = "visible";
+                                    submit.parentElement.parentElement.parentElement.removeChild(form);
+                                    layOver2.innerHTML = players[1] + " Wins!";
+                                    layOver2.style.visibility = "visible";
+                                    p.style.zIndex = "-1";
+                                }
+                        } 
+                    }                           
+                }
+                console.log(scores);
+
+                count++;      
+                
+        }
+        function yoshi(){
+            console.log("nwjsa");
+            location.reload(true);
+        }
+        // count = 1;
+        // var winner = [ [1,2,3], [4,5,6], [7,8,9],
+        //                 [1,4,7], [2,5,8], [3,6,9],
+        //                 [1,5,9], [3,5,7]
+        //              ];
+        // var player1 = [];
+        // var player2 = [];
+  
+        // // for(var x in winner)
+        // //     {
+        // //         console.log(winner[x].join(""));
+        // //     }
+
+        // function changeValue(e){
+        //     if(count%2 === 0){
+        //         e.value = "O";
+        //         player2.push(e.id)
+        //     }
+        //     else{
+        //         e.value = "X";
+        //         player1.push(e.id)
+        //     }
+        //     count++;
+
+        //     console.log(player1,player2);
+
+        //     var line = document.querySelector(".line");
+        //     for(var y in winner)
+        //     {
+        //         if(player1.sort().join("") === winner[y].join("") || player2.sort().join("") === winner[y].join(""))
+        //         {
+        //             console.log(winner[y][0]);
+        //             line.style.zIndex = "1";
+        //             setTimeout(function(){ location = ' ' ;alert("You Won!!!")},500);
+        //         }
+        //     }
+        //     // if(player1.join("") === winner[0].join(""))
+        //     // {
+        //     // }
+        // }
+    </script>
+</body>
+</html>
